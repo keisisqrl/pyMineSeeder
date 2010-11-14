@@ -143,3 +143,7 @@ class Seed:
 	Argument:
 	outfile -- file to write"""
 	self.root_tag.save(outfile)
+
+    def get_seed(self):
+	"""Return string containing already loaded/generated minestring."""
+	return self.seed_string
