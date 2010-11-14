@@ -1,0 +1,16 @@
+This is a fork/port of c0bra61's excellent MineSeeder application [1] using
+nbt.py from codewarrior0's pymclevel [2] project which powers MCEdit.
+
+nbt.py depends on numpy, available from PyPI or [3]. This project does not
+depend on any additional modules.
+
+Currently pyMineSeeder is nearly functionality-equivalent though it does not
+have a GUI interface or the ability to add an inventory, however the method
+which generates an NBT tree is designed to be extensible so the inventory
+could be done easily if people consider it important.
+
+The logic to deal with NBT trees and mineseeds is in codec.py. Although it can
+be imported and called directly, codec.py is not meant to be used directly.
+It presents an API for manipulating mineseeds through the Seed class it 
+contains. Additional functionality for verifying and/or sanity-checking
+mineseeds may be added later.
