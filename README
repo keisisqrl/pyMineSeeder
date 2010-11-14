@@ -14,3 +14,10 @@ be imported and called directly, codec.py is not meant to be used directly.
 It presents an API for manipulating mineseeds through the Seed class it 
 contains. Additional functionality for verifying and/or sanity-checking
 mineseeds may be added later.
+
+seeder.py constitutes a basic user interface. It can write a level.dat file
+from a mineseed, and it can produce a mineseed from a level.dat file.
+
+This project is considered a production-ready alpha, with the caveat it is
+destructive by design when writing. Existing API calls are unlikely to be
+changed, and if they are they will changes will be backwards-compatible.
