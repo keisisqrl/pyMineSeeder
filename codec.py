@@ -60,7 +60,7 @@ class Seed:
 	self.root_tag.add(data_base)
 
 	data_base['RandomSeed'] = nbt.TAG_Long(self.random_seed)
-	data_base['Time'] = nbt.TAG_Long(kwargs.get('time',1))
+	data_base['Time'] = nbt.TAG_Long(kwargs.get('time',self.time))
 	data_base['SpawnX'] = nbt.TAG_Int(self.player_x)
 	data_base['SpawnY'] = nbt.TAG_Int(self.player_y)
 	data_base['SpawnZ'] = nbt.TAG_Int(self.player_z)
