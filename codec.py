@@ -35,6 +35,9 @@ class Seed:
 	self.rotation_y = data_base['Player']['Rotation'][1].value
 
     def load_string(self, instring):
+	if ( !instring.startswith('[') || !instring.endswith(']'):
+	    raise Exception("Invalid MineSeed")
+
 	self.seed_string = instring
 
     def encode(self):
@@ -50,3 +53,37 @@ class Seed:
 	(self.random_seed, self.time, self.player_x, self.player_y,
 	 self.player_z, self.rotation_x, self.rotation_y) = \
 	    struct.unpack('<qqiiiff',data_pack)
+
+    def make_nbt(self, **kwargs):
+	self.root_tag = nbt.TAG_Compound()
+	data_base = nbt.TAG_Compound("Data")
+	self.root_tag.add(data_base)
+
+	data_base['RandomSeed'] = nbt.TAG_Long(self.randomSeed)
+	data_base['Time'] = nbt.TAG_Long(kwargs.get('time',1))
+	data_base['SpawnX'] = nbt.TAG_Int(self.player_x)
+	data_base['SpawnY'] = nbt.TAG_Int(self.player_y)
+	data_base['SpawnZ'] = nbt.TAG_Int(self.player_z)
+	data_base['LastPlayed'] = nbt.TAG_Long(1289561130810)
+	data_base['SizeOnDisk'] = nbt.TAG_Long(1000)
+
+	player_base = nbt.TAG_Compound("Player")
+	data_base.add(player_base)
+
+	player_base['OnGround'] = nbt.TAG_Byte(1)
+	player_base['Air'] = nbt.TAG_Short(300)
+	player_base['AttackTime'] = nbt.TAG_Short(0)
+	player_base['DeathTime'] = nbt.TAG_Short(0)
+	player_base['Fire'] = nbt.TAG_Short(-20)
+	player_base['Health'] = nbt.TAG_Short(20)
+	player_base['HurtTime'] = nbt.TAG_Short(0)
+	player_base['Dimension'] = nbt.TAG_Int(0)
+	player_base['Score'] = nbt.TAG_Int(0)
+	player_base['FallDistance'] = nbt.TAG_Float(0)
+
+	player_pos = nbt.TAG_List(name='Pos',list_type=nbt.TAG_Double)
+	player_base.add(player_pos)
+	
+	player_pos[0] = nbt.TAG_Double(float(self.player_x))
+	player_pos[1] = nbt.TAG_Double(float(self.player_y))
+	player_pos[2] = nbt.TAG_Double(float(self.player_z))
