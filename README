@@ -21,3 +21,8 @@ from a mineseed, and it can produce a mineseed from a level.dat file.
 This project is considered a production-ready alpha, with the caveat it is
 destructive by design when writing. Existing API calls are unlikely to be
 changed, and if they are they will changes will be backwards-compatible.
+
+References:
+[1] https://github.com/c0bra61/MineSeeder
+[2] https://github.com/codewarrior0/pymclevel
+[3] http://numpy.scipy.org/
