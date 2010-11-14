@@ -167,8 +167,8 @@ class Seed:
 
     def _sanity(self):
 	if self.player_y < 1:
-	    return false
+	    return False
 	elif self.player_y > 128:
-	    return false
+	    return False
 	else:
-	    return true
+	    return True
