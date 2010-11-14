@@ -14,6 +14,9 @@ def write(nbt_path):
     model = codec.Seed()
     model.load_string(raw_input('Please enter the mineseed: '))
     model.decode()
+    if not model.sanity_check():
+	print("Invalid mineseed - y-axis not sane")
+	sys.exit(1)
     model.make_nbt()
     model.write_nbt(nbt_path)
 
