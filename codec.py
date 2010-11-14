@@ -8,9 +8,14 @@ from math import floor
 
 
 class Seed:
+    """Model a mineseed.
+
+    This class contains methods to load settings from either a level.dat NBT 
+    file or a mineseed and write back out to either format."""
 
 
     def __init__(self):
+	"""Create an empty Seed."""
 	pass
 
     def _cipher(self, data_string):
@@ -20,8 +25,14 @@ class Seed:
 	    izip(data_string, cycle(xor_key)))
 	
     def load_tag(self, nbt_file):
+	"""Load a level.dat NBT file into an NBT tree.
+
+	Argument:
+	nbt_file -- specify path to the file to be read in"""
 	self.root_tag = nbt.load(nbt_file)
 
+    def parse_nbt(self):
+	"""Parse already-loaded NBT data into instance variables."""
 	data_base = self.root_tag['Data']
 	    
 	self.random_seed = data_base['RandomSeed'].value
@@ -35,12 +46,17 @@ class Seed:
 	self.rotation_y = data_base['Player']['Rotation'][1].value
 
     def load_string(self, instring):
+	"""Load a mineseed to be parsed. Apply sanity check from upstream.
+
+	Argument:
+	instring -- string containing a mineseed"""
 	if ( not instring.startswith('[') or not instring.endswith(']')):
 	    raise Exception("Invalid MineSeed")
 
 	self.seed_string = instring
 
     def encode(self):
+	"""Generate mineseed from instance variables."""
 	data_pack = struct.pack('<qqiiiff',self.random_seed, self.time, 
 	                        self.player_x, self.player_y, self.player_z,
 				self.rotation_x,self.rotation_y)
@@ -48,6 +64,7 @@ class Seed:
 	self.seed_string = ''.join(('[',ciphertext,']'))
 
     def decode(self):
+	"""Unpack loaded mineseed into instance variables."""
 	data_pack = self._cipher(base64.b64decode( \
 	    self.seed_string.strip('[]')))
 	(self.random_seed, self.time, self.player_x, self.player_y,
@@ -55,6 +72,13 @@ class Seed:
 	    struct.unpack('<qqiiiff',data_pack)
 
     def make_nbt(self, **kwargs):
+	"""Generate NBT tree from instance variables.
+
+	Keyword arguments:
+	time -- override time stored in mineseed. Integer."""
+	# This method is designed to be easily extensible. It should be
+	# trivial to allow anything it touches to be overridden by
+	# kwargs - see the time argument for an example.
 	self.root_tag = nbt.TAG_Compound()
 	data_base = nbt.TAG_Compound("Data")
 	self.root_tag.add(data_base)
@@ -105,4 +129,8 @@ class Seed:
 	player_mot.append(nbt.TAG_Double(0.0))
 	
     def write_nbt(self, outfile):
+	"""Write NBT tree to a level.dat file.
+
+	Argument:
+	outfile -- file to write"""
 	self.root_tag.save(outfile)
