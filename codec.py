@@ -147,3 +147,28 @@ class Seed:
     def get_seed(self):
 	"""Return string containing already loaded/generated minestring."""
 	return self.seed_string
+
+    def sanity_check(to_check):
+	"""Perform sanity checks. Currently, verify y is sane.
+
+	Works as an instance or static method.
+
+	Static method takes a string containing a mineseed.
+
+	Instance method requires nbt_parse() or decode() to be called
+	before use."""
+	if not isinstance(to_check,Seed):
+	    checker = Seed()
+	    checker.load_string(to_check)
+	    checker.decode()
+	    return checker._sanity()
+	else:
+	    to_check._sanity()
+
+    def _sanity(self):
+	if self.player_y < 1:
+	    return false
+	elif self.player_y > 128:
+	    return false
+	else:
+	    return true
