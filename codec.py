@@ -1,3 +1,12 @@
+"""
+Implement an encoder/decoder for mineseeds and level.dat NBT models.
+
+Currently functionally near-identical to upstream MineSeeder, but 
+may be extended with possible checks at a future date.
+
+Not intended for direct use by users, but as a mineseed API.
+
+"""
 import base64
 import struct
 import nbt
@@ -8,7 +17,7 @@ from math import floor
 
 
 class Seed:
-    """Model a mineseed.
+    """Model a mineseed and provide methods to manipulate seeds.
 
     This class contains methods to load settings from either a level.dat NBT 
     file or a mineseed and write back out to either format."""
