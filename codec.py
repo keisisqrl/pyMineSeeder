@@ -35,7 +35,7 @@ class Seed:
 	self.rotation_y = data_base['Player']['Rotation'][1].value
 
     def load_string(self, instring):
-	if ( !instring.startswith('[') || !instring.endswith(']'):
+	if ( not instring.startswith('[') or not instring.endswith(']')):
 	    raise Exception("Invalid MineSeed")
 
 	self.seed_string = instring
@@ -59,7 +59,7 @@ class Seed:
 	data_base = nbt.TAG_Compound("Data")
 	self.root_tag.add(data_base)
 
-	data_base['RandomSeed'] = nbt.TAG_Long(self.randomSeed)
+	data_base['RandomSeed'] = nbt.TAG_Long(self.random_seed)
 	data_base['Time'] = nbt.TAG_Long(kwargs.get('time',1))
 	data_base['SpawnX'] = nbt.TAG_Int(self.player_x)
 	data_base['SpawnY'] = nbt.TAG_Int(self.player_y)
@@ -84,6 +84,25 @@ class Seed:
 	player_pos = nbt.TAG_List(name='Pos',list_type=nbt.TAG_Double)
 	player_base.add(player_pos)
 	
-	player_pos[0] = nbt.TAG_Double(float(self.player_x))
-	player_pos[1] = nbt.TAG_Double(float(self.player_y))
-	player_pos[2] = nbt.TAG_Double(float(self.player_z))
+	player_pos.append(nbt.TAG_Double(float(self.player_x)))
+	player_pos.append(nbt.TAG_Double(float(self.player_y)))
+	player_pos.append(nbt.TAG_Double(float(self.player_z)))
+	
+	player_rot = nbt.TAG_List(name='Rotation',list_type=nbt.TAG_Float)
+	player_base.add(player_rot)
+	
+	player_rot.append(nbt.TAG_Float(self.rotation_x))
+	player_rot.append(nbt.TAG_Float(self.rotation_y))
+
+	inventory = nbt.TAG_Compound('Inventory')
+	player_base.add(inventory)
+
+	player_mot = nbt.TAG_List(name='Motion',list_type=nbt.TAG_Double)
+	player_base.add(player_mot)
+
+	player_mot.append(nbt.TAG_Double(0.0))
+	player_mot.append(nbt.TAG_Double(0.0))
+	player_mot.append(nbt.TAG_Double(0.0))
+	
+    def write_nbt(self, outfile):
+	self.root_tag.save(outfile)
