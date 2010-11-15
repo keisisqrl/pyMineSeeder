@@ -163,12 +163,11 @@ class Seed:
 	    checker.decode()
 	    return checker._sanity()
 	else:
-	    to_check._sanity()
+	    self = to_check
+	    if self.player_y < 1:
+		return False
+	    elif self.player_y > 128:
+		return False
+	    else:
+		return True
 
-    def _sanity(self):
-	if self.player_y < 1:
-	    return False
-	elif self.player_y > 128:
-	    return False
-	else:
-	    return True
