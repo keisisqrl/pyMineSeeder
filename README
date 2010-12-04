@@ -18,6 +18,10 @@ mineseeds may be added later.
 seeder.py constitutes a basic user interface. It can write a level.dat file
 from a mineseed, and it can produce a mineseed from a level.dat file.
 
+seeder-smp.py is a clone of seeder.py, but using a Seed class that knows how 
+to read an SMP world. Note: right now it only knows how to use the spawn and 
+it does not keep rotation.
+
 This project is considered a production-ready alpha, with the caveat it is
 destructive by design when writing. Existing API calls are unlikely to be
 changed, and if they are changes will be backwards-compatible.
