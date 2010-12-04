@@ -47,12 +47,33 @@ class Seed:
 	self.random_seed = data_base['RandomSeed'].value
 	self.time = data_base['Time'].value
 
-	self.player_x = int(floor(data_base['Player']['Pos'][0].value))
-	self.player_y = int(floor(data_base['Player']['Pos'][1].value))
-	self.player_z = int(floor(data_base['Player']['Pos'][2].value))
+	location = self._location(data_base)
+
+	self.player_x = location[0]
+	self.player_y = location[1]
+	self.player_z = location[2]
+
+	self.rotation_x = location[3]
+	self.rotation_y = location[4]
 	
-	self.rotation_x = data_base['Player']['Rotation'][0].value
-	self.rotation_y = data_base['Player']['Rotation'][1].value
+	# Replaced with generic call above
+	#
+	#self.player_x = int(floor(data_base['Player']['Pos'][0].value))
+	#self.player_y = int(floor(data_base['Player']['Pos'][1].value))
+	#self.player_z = int(floor(data_base['Player']['Pos'][2].value))
+	
+	#self.rotation_x = data_base['Player']['Rotation'][0].value
+	#self.rotation_y = data_base['Player']['Rotation'][1].value
+
+    def _location(self, data_base):
+	x = int(floor(data_base['Player']['Pos'][0].value))
+	y = int(floor(data_base['Player']['Pos'][1].value))
+	z = int(floor(data_base['Player']['Pos'][2].value))
+	rot_x = data_base['Player']['Rotation'][0].value
+	rot_y = data_base['Player']['Rotation'][1].value
+	
+	return x, y, z, rot_x, rot_y
+	
 
     def load_string(self, instring):
 	"""Load a mineseed to be parsed. Apply sanity check from upstream.
@@ -171,3 +192,17 @@ class Seed:
 	    else:
 		return True
 
+
+class SMPSeed(Seed):
+    
+
+    def _location(self,data_base):
+	x = int(floor(data_base['SpawnX'].value))
+	y = int(floor(data_base['SpawnY'].value))
+	z = int(floor(data_base['SpawnZ'].value))
+	#rot_x = data_base['Player']['Rotation'][0].value
+	#rot_y = data_base['Player']['Rotation'][1].value
+	rot_x = 0
+	rot_y = 0
+	
+	return x, y, z, rot_x, rot_y
